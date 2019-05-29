@@ -1,0 +1,3 @@
+class Particle extends physicsObject {
+
+}
