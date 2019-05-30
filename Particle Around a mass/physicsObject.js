@@ -58,11 +58,35 @@ class physicsObject{
         this.location.add(this.velocity);
     }
 
-    collision(physicsObject){
+    checkCollision(physicsObject){
 
-        //Conserve Momentum m_ * v_ = m * v => v =  m * v / m_
+        var dx = this.location.x - physicsObject.location.x;
+        var dy = this.location.y - physicsObject.location.y;
 
-        newObject =
+        var distance = Math.sqrt(dx * dx + dy * dy);
+
+        //Collisions Conditionals
+        if (distance < this.size/2 + physicsObject.size/2){
+
+            console.log("collision");
+
+            var newMass = this.mass + physicsObject.mass;
+            var newVelocity = p5.Vector.add(this.velocity, physicsObject.velocity);
+            var newSize = this.size + physicsObject.size;
+            var newObject = new Planet(newMass, newSize, {
+                x: this.location.x, 
+                y: this.location.y
+            });
+
+            newObject.velocity = newVelocity;
+
+            return newObject;
+
+        } else {
+            return false;
+        }
+
+        
 
 
     }
