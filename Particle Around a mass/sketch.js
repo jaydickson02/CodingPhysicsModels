@@ -1,37 +1,44 @@
-
-var planetArray = [];
+var ObjectArray = [];
 
 function setup() {
     createCanvas(4000, 2000);
 
     //Create the star and planets
-    star = new physicsObject(10000, 100, {x: 2000, y: 1000}, 0);
+    ObjectArray[0] = new physicsObject(10000, 100, {x: 2000, y: 1000});
 
 
     //Planet Generator
-    xCount = 2300;
-    sCount = 4;
 
-    for (var i = 0; i < 1; i++){
-        planetArray[i] = new physicsObject(0.00001, 30, {x: xCount, y: 1000}, sCount)
-        xCount += 400;
-        sCount -= 0.5;
+    //Switch to a random x, y generator
+    xCount = 2050;
+    yCount = 1100
+    for (var i = 1; i < 4; i++) {
+        ObjectArray[i] = new Planet(20, 30, {x: xCount, y: yCount})
+        ObjectArray[i].addOrbitalVelocity(ObjectArray[0]);
+        xCount += 100;
+        
     }
 }
 
 function draw() {
     background(255);
     fill('yellow');
-    star.draw();
-    fill('255');
+    //star.draw();
+    
 
-   for(var i = 0; i < planetArray.length; i++){
-       planetArray[i].draw();
-       star.attract(planetArray[i]);
+    for (var i = 0; i < ObjectArray.length; i++) {
+        fill(0);
+        ObjectArray[i].draw();
+        //star.applyForces(ObjectArray[i]);
 
-       for (var j = 0; j < planetArray.length; j++){
-        planetArray[i].attract(planetArray[j]);
-   }
-   }
+        //Dose not work currently; Meant to apply forces between the planets
+
+        for (var j = 0; j < ObjectArray.length; j++) {
+            if (ObjectArray[i] != ObjectArray[j]){
+                ObjectArray[i].applyForces(ObjectArray[j]);
+            }
+        }
+        
+    }
 
 }

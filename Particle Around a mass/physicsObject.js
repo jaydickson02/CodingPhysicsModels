@@ -1,6 +1,7 @@
+
 class physicsObject{
 
-    constructor(mass, size, location, velocity){
+    constructor(mass, size, location){
         //Constructor Variables
         this.mass = mass;
         this.size = size;
@@ -8,7 +9,7 @@ class physicsObject{
 
         //Class Variables
 
-        this.velocity = createVector(0, velocity);
+        this.velocity = createVector(0, 0);
         this.acceleration = createVector(0, 0);
 
     }
@@ -17,7 +18,17 @@ class physicsObject{
         ellipse(this.location.x, this.location.y, this.size) 
     }
 
-    attract(physicsObject){
+    applyForces(physicsObject){
+        
+        var gravityForce = this.calculateGravityForce(physicsObject);
+
+        physicsObject.addForce([gravityForce]);
+
+        
+    }
+
+    calculateGravityForce(physicsObject){
+
         //Gravity Equation: (G * M1 * M2) / r^2 where G = 6.67408 × 10-11
 
         var G = 6.67408 * Math.pow(10, -11); //Gravitational Constant
@@ -29,10 +40,8 @@ class physicsObject{
         var gravityMagnitude = (this.mass * physicsObject.mass) / Math.pow(R, 2);
 
         var gravityForce = distanceVector.setMag(gravityMagnitude)
-    
-        physicsObject.addForce([gravityForce]);
 
-        
+        return gravityForce;
     }
 
     addForce(forces){
@@ -47,6 +56,15 @@ class physicsObject{
         this.velocity.add(acceleration);
         this.velocity.add(this.acceleration);
         this.location.add(this.velocity);
+    }
+
+    collision(physicsObject){
+
+        //Conserve Momentum m_ * v_ = m * v => v =  m * v / m_
+
+        newObject =
+
+
     }
 
     
